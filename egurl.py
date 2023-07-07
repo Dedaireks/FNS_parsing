@@ -1,20 +1,6 @@
 import json
-import requests
-import urllib.parse as parse
-
-
-def fetch(url, params):
-    headers = {
-        "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-    }
-    if params['body']:
-        body = params['body'].encode('utf-8')
-    else:
-        body = params['body']
-    if params['method'] == 'GET':
-        return requests.get(url, headers=headers)
-    if params['method'] == 'POST':
-        return requests.post(url, headers=headers, data=body)
+from fetch import fetch
+from urllib import parse as parse
 
 
 def get_token(query, region, page):
@@ -25,7 +11,7 @@ def get_token(query, region, page):
     return token
 
 
-def get_data(query, region='', page=1):
+def get_egurl_data(query, region='', page=1):
     results = fetch("https://egrul.nalog.ru/search-result/" +
                     get_token(query, region, page).json()['t'],
                     {

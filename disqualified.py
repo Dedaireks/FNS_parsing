@@ -1,20 +1,6 @@
-import requests
-import urllib.parse as parse
+from fetch import fetch
+from urllib import parse as parse
 import json
-
-
-def fetch(url, params):
-    headers = {
-        "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-    }
-    if params['body']:
-        body = params['body'].encode('utf-8')
-    else:
-        body = params['body']
-    if params['method'] == 'GET':
-        return requests.get(url, headers=headers)
-    if params['method'] == 'POST':
-        return requests.post(url, headers=headers, data=body)
 
 
 def get_data(query, page=1, pagesize=25):

@@ -1,27 +1,12 @@
-import requests
+from fetch import fetch
 import urllib.parse as parse
 import json
-
-
-def fetch(url, params):
-    headers = {
-        "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-    }
-    if params['body']:
-        body = params['body'].encode('utf-8')
-    else:
-        body = params['body']
-    if params['method'] == 'GET':
-        return requests.get(url, headers=headers)
-    if params['method'] == 'POST':
-        return requests.post(url, headers=headers, data=body)
-
 
 with open('IFNS.json') as IFNS:
     IFNS_data = json.load(IFNS)
 
 
-def get_data(kind=2, inn='', kpp='', name='', kio='', pos=1, region=''):
+def get_foreign_org_data(kind=2, inn='', kpp='', name='', kio='', pos=1, region=''):
     data = fetch("https://service.nalog.ru/io-proc.do", {
         "body": f"token=&c=search&pos={pos}&SEARCH_KIND={kind}&INN={inn}&KPP={kpp}&NAME={parse.quote_plus(name)}&REGION={region}&ADDR=&KIO={kio}",
         "method": "POST"
@@ -78,5 +63,5 @@ elif kind == '2':
 elif kind == '3':
     kind = '4'
     kio = input("Введите КИО: ")
-response = get_data(kind=kind, inn=inn, kpp=kpp, name=name, kio=kio)
+response = get_foreign_org_data(kind=kind, inn=inn, kpp=kpp, name=name, kio=kio)
 print(response)
